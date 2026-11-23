@@ -1,0 +1,150 @@
+.page {
+  min-height: 100vh;
+  background: #f5f7fb;
+  padding-bottom: calc(40rpx + env(safe-area-inset-bottom));
+}
+
+.tabs {
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+  padding: 0 16rpx;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.tab {
+  flex: 1;
+  text-align: center;
+  padding: 26rpx 0;
+  font-size: 28rpx;
+  color: #5b6275;
+  position: relative;
+}
+
+.tab.active {
+  color: #2f6bff;
+  font-weight: 600;
+}
+
+.tab.active::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 6rpx;
+  transform: translateX(-50%);
+  width: 40rpx;
+  height: 6rpx;
+  border-radius: 3rpx;
+  background: #2f6bff;
+}
+
+.list {
+  padding: 24rpx;
+}
+
+.order-card {
+  background: #ffffff;
+  border-radius: 20rpx;
+  padding: 24rpx;
+  margin-bottom: 24rpx;
+  box-shadow: 0 6rpx 24rpx rgba(31, 63, 120, 0.06);
+}
+
+.order-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 20rpx;
+  border-bottom: 2rpx solid #f2f4f8;
+}
+
+.order-no {
+  font-size: 22rpx;
+  color: #9aa0b0;
+}
+
+.order-status {
+  font-size: 24rpx;
+  font-weight: 600;
+}
+
+.order-status.pending {
+  color: #ff8f1f;
+}
+
+.order-status.paid {
+  color: #1aa06d;
+}
+
+.order-status.cancelled {
+  color: #9aa0b0;
+}
+
+.order-body {
+  display: flex;
+  align-items: center;
+  padding: 20rpx 0;
+}
+
+.cover {
+  width: 160rpx;
+  height: 112rpx;
+  border-radius: 12rpx;
+  flex-shrink: 0;
+  background: #eef1f6;
+}
+
+.order-info {
+  flex: 1;
+  padding: 0 20rpx;
+  min-width: 0;
+}
+
+.title {
+  font-size: 28rpx;
+  color: #1a1d26;
+  line-height: 1.4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.time {
+  font-size: 22rpx;
+  color: #9aa0b0;
+  margin-top: 8rpx;
+}
+
+.amount {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: #1a1d26;
+}
+
+.order-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 20rpx;
+  border-top: 2rpx solid #f2f4f8;
+}
+
+.act {
+  font-size: 26rpx;
+  padding: 12rpx 30rpx;
+  border-radius: 999rpx;
+  margin-left: 20rpx;
+}
+
+.act.ghost {
+  color: #5b6275;
+  background: #f2f4f8;
+}
+
+.act.primary {
+  color: #ffffff;
+  background: #2f6bff;
+}

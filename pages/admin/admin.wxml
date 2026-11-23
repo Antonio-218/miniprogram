@@ -1,0 +1,145 @@
+<view wx:if="{{authorized}}" class="page">
+  <view class="admin-tabs">
+    <view class="admin-tab {{tab === 'course' ? 'active' : ''}}" data-tab="course" bindtap="switchTab">课程管理</view>
+    <view class="admin-tab {{tab === 'order' ? 'active' : ''}}" data-tab="order" bindtap="switchTab">订单管理</view>
+    <view class="admin-tab {{tab === 'stats' ? 'active' : ''}}" data-tab="stats" bindtap="switchTab">数据统计</view>
+  </view>
+
+  <!-- 课程管理 -->
+  <block wx:if="{{tab === 'course'}}">
+    <view class="toolbar">
+      <text class="toolbar-title">共 {{courses.length}} 门课程</text>
+      <view class="add-btn" bindtap="addCourse">+ 发布课程</view>
+    </view>
+
+    <view class="list">
+      <view class="course-item" wx:for="{{courses}}" wx:key="_id">
+        <view class="course-row" data-id="{{item._id}}" bindtap="editCourse">
+          <image class="cover" src="{{item.cover}}" mode="aspectFill" lazy-load />
+          <view class="info">
+            <view class="title">{{item.title}}</view>
+            <view class="sub">{{item.categoryName || '未分类'}} · {{item.chapterCount}} 节</view>
+            <view class="sub">{{item.priceText}} · 已售 {{item.sales}}</view>
+          </view>
+        </view>
+        <view class="course-foot">
+          <view class="switch-box">
+            <switch
+              checked="{{item.status === 'on'}}"
+              color="#2F6BFF"
+              data-id="{{item._id}}"
+              bindchange="onCourseStatusChange"
+            />
+            <text class="switch-text">{{item.status === 'on' ? '已上架' : '已下架'}}</text>
+          </view>
+          <view class="acts">
+            <view class="act ghost" data-id="{{item._id}}" bindtap="removeCourse">删除</view>
+            <view class="act primary" data-id="{{item._id}}" bindtap="editCourse">编辑</view>
+          </view>
+        </view>
+      </view>
+
+      <view wx:if="{{courseLoading}}" class="loading-tip">加载中...</view>
+      <view wx:elif="{{!courses.length}}" class="empty">还没有课程，点击右上角发布第一门课程</view>
+
+      <view class="card section">
+        <view class="section-head">
+          <text class="section-title">分类管理</text>
+          <text class="link" bindtap="onAddCategory">+ 新建</text>
+        </view>
+        <view class="cate-list" wx:if="{{categories.length}}">
+          <view class="cate-chip" wx:for="{{categories}}" wx:key="_id">
+            <text>{{item.name}}</text>
+            <text class="cate-remove" data-id="{{item._id}}" catchtap="onRemoveCategory">×</text>
+          </view>
+        </view>
+        <view wx:else class="muted-text">暂无分类，建议先创建分类</view>
+      </view>
+    </view>
+  </block>
+
+  <block wx:elif="{{tab === 'order'}}">
+    <view class="tabs">
+      <view
+        class="tab {{orderStatus === item.key ? 'active' : ''}}"
+        wx:for="{{orderTabs}}"
+        wx:key="key"
+        data-status="{{item.key}}"
+        bindtap="onOrderTab"
+      >{{item.label}}</view>
+    </view>
+
+    <view class="list">
+      <view class="order-item" wx:for="{{orders}}" wx:key="_id">
+        <view class="order-head">
+          <text class="order-user">{{item.nickName}}</text>
+          <text class="order-status {{item.status}}">{{item.statusText}}</text>
+        </view>
+        <view class="order-course">{{item.courseTitle}}</view>
+        <view class="order-foot">
+          <text class="order-no">{{item.orderNo}}</text>
+          <text class="order-amount">{{item.amountText}}</text>
+        </view>
+        <view class="order-time">{{item.timeText}}</view>
+      </view>
+
+      <view wx:if="{{orderLoading}}" class="loading-tip">加载中...</view>
+      <view wx:elif="{{!orders.length}}" class="empty">暂无订单</view>
+      <view wx:elif="{{!orderNoMore}}" class="load-more" bindtap="loadMoreOrders">加载更多</view>
+    </view>
+  </block>
+
+  <block wx:elif="{{tab === 'stats'}}">
+    <view class="list" wx:if="{{stats}}">
+      <view class="stats-grid">
+        <view class="stats-card">
+          <text class="stats-label">总销售额（元）</text>
+          <text class="stats-value">{{stats.totalSalesText}}</text>
+        </view>
+        <view class="stats-card">
+          <text class="stats-label">今日销售额（元）</text>
+          <text class="stats-value">{{stats.todaySalesText}}</text>
+        </view>
+        <view class="stats-card">
+          <text class="stats-label">已支付订单</text>
+          <text class="stats-value">{{stats.paidCount}}</text>
+        </view>
+        <view class="stats-card">
+          <text class="stats-label">待支付订单</text>
+          <text class="stats-value">{{stats.pendingCount}}</text>
+        </view>
+        <view class="stats-card">
+          <text class="stats-label">课程总数</text>
+          <text class="stats-value">{{stats.courseCount}}</text>
+        </view>
+        <view class="stats-card">
+          <text class="stats-label">用户总数</text>
+          <text class="stats-value">{{stats.userCount}}</text>
+        </view>
+      </view>
+
+      <view class="card section">
+        <view class="section-head">
+          <text class="section-title">课程销售 TOP5</text>
+        </view>
+        <view class="top-item" wx:for="{{stats.topCourses}}" wx:key="courseId">
+          <text class="top-rank">{{index + 1}}</text>
+          <view class="top-info">
+            <text class="top-title">{{item.title}}</text>
+            <text class="top-count">{{item.count}} 笔订单</text>
+          </view>
+          <text class="top-amount">¥{{item.amountText}}</text>
+        </view>
+        <view wx:if="{{!stats.topCourses.length}}" class="muted-text">暂无销售数据</view>
+      </view>
+    </view>
+    <view wx:elif="{{statsLoading}}" class="loading-tip">加载中...</view>
+  </block>
+</view>
+
+<view wx:elif="{{authorized === false}}" class="no-auth">
+  <view class="no-auth-title">无管理权限</view>
+  <view class="no-auth-desc">当前微信号不在管理员白名单内，如需开通请联系项目负责人</view>
+</view>
+
+<view wx:else class="loading-tip">权限校验中...</view>

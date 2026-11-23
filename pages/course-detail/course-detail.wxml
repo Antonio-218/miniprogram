@@ -1,0 +1,68 @@
+<view class="page" wx:if="{{course}}">
+  <image class="cover" src="{{course.cover}}" mode="aspectFill" />
+
+  <view class="main">
+    <view class="info-card card">
+      <view class="title">{{course.title}}</view>
+      <view class="meta-row">
+        <text class="tag" wx:if="{{course.categoryName}}">{{course.categoryName}}</text>
+        <text class="meta-text">{{course.chapterCount}} 节课程</text>
+        <text class="meta-text">已售 {{course.sales}}</text>
+      </view>
+      <view class="price-row">
+        <text class="price">{{course.priceText}}</text>
+        <text class="origin" wx:if="{{course.originalPriceText}}">原价 ¥{{course.originalPriceText}}</text>
+        <text class="owned" wx:if="{{course.purchased}}">已购买</text>
+      </view>
+    </view>
+
+    <view class="card block">
+      <view class="section-head">
+        <text class="section-title">课程介绍</text>
+      </view>
+      <rich-text wx:if="{{course.detail}}" class="detail" nodes="{{course.detail}}"></rich-text>
+      <view wx:else class="locked-hint">购买后可查看完整图文内容</view>
+    </view>
+
+    <view class="card block">
+      <view class="section-head">
+        <text class="section-title">课程目录</text>
+        <text class="count">共 {{course.chapterCount}} 节</text>
+      </view>
+      <view
+        class="chapter"
+        wx:for="{{course.chapters}}"
+        wx:key="index"
+        data-index="{{item.index}}"
+        bindtap="onChapterTap"
+      >
+        <text class="chapter-index">{{item.index + 1}}</text>
+        <text class="chapter-title">{{item.title}}</text>
+        <text class="lock" wx:if="{{item.locked}}">未解锁</text>
+        <text class="play" wx:else>播放</text>
+      </view>
+      <view wx:if="{{!course.chapters.length}}" class="locked-hint">课程目录整理中</view>
+    </view>
+
+    <view class="share-row">
+      <button class="share-btn btn-reset" open-type="share">分享给好友</button>
+    </view>
+  </view>
+
+  <view class="bottom-bar">
+    <view class="bottom-info">
+      <text class="price">{{course.priceText}}</text>
+      <text class="bottom-note">{{course.purchased ? '已购买，可无限次学习' : '购买后永久学习'}}</text>
+    </view>
+    <button
+      class="buy-btn"
+      hover-class="buy-btn-hover"
+      loading="{{paying}}"
+      disabled="{{paying}}"
+      bindtap="onBuyTap"
+    >{{course.purchased ? '开始学习' : (course.price === 0 ? '免费学习' : '立即购买')}}</button>
+  </view>
+</view>
+
+<view wx:elif="{{loading}}" class="loading-tip">加载中...</view>
+<view wx:else class="empty">课程不存在或已下架</view>

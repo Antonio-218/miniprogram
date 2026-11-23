@@ -1,0 +1,121 @@
+<view class="page">
+  <view class="card form">
+    <view class="field">
+      <text class="label">课程标题</text>
+      <input
+        class="input"
+        value="{{form.title}}"
+        data-field="title"
+        bindinput="onFieldInput"
+        placeholder="例如：小程序云开发实战"
+        maxlength="60"
+      />
+    </view>
+
+    <view class="field">
+      <text class="label">课程封面</text>
+      <view class="cover-box" bindtap="chooseCover">
+        <image wx:if="{{form.cover}}" class="cover-img" src="{{form.cover}}" mode="aspectFill" />
+        <view wx:else class="cover-empty">+ 上传封面</view>
+      </view>
+    </view>
+
+    <view class="field row">
+      <text class="label">课程分类</text>
+      <view class="row-right">
+        <picker range="{{categories}}" range-key="name" value="{{categoryIndex}}" bindchange="onCategoryChange">
+          <view class="picker-value">{{form.categoryName || '请选择分类'}}</view>
+        </picker>
+        <text class="mini-link" bindtap="onAddCategory">新建</text>
+      </view>
+    </view>
+
+    <view class="field row">
+      <text class="label">售价（元）</text>
+      <input
+        class="input right"
+        type="digit"
+        value="{{form.price}}"
+        data-field="price"
+        bindinput="onFieldInput"
+        placeholder="0 表示免费"
+      />
+    </view>
+
+    <view class="field row">
+      <text class="label">原价（元）</text>
+      <input
+        class="input right"
+        type="digit"
+        value="{{form.originalPrice}}"
+        data-field="originalPrice"
+        bindinput="onFieldInput"
+        placeholder="选填，展示划线价"
+      />
+    </view>
+
+    <view class="field">
+      <text class="label">课程简介</text>
+      <textarea
+        class="textarea"
+        value="{{form.summary}}"
+        data-field="summary"
+        bindinput="onFieldInput"
+        placeholder="一句话介绍课程亮点"
+        maxlength="200"
+      />
+    </view>
+
+    <view class="field">
+      <text class="label">课程详情（富文本）</text>
+      <editor id="editor" class="editor" placeholder="支持加粗、列表等基础排版" bindinput="onEditorInput"></editor>
+    </view>
+
+    <view class="field row no-border">
+      <text class="label">上架状态</text>
+      <view class="row-right">
+        <switch checked="{{form.status === 'on'}}" color="#2F6BFF" bindchange="onStatusChange" />
+        <text class="switch-text">{{form.status === 'on' ? '已上架' : '已下架'}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="card form">
+    <view class="section-head">
+      <text class="section-title">章节列表</text>
+      <view class="head-links">
+        <text class="mini-link" bindtap="addRecordedVideos">上传录制视频</text>
+        <text class="mini-link" bindtap="addChapter">+ 添加章节</text>
+      </view>
+    </view>
+
+    <view class="chapter" wx:for="{{form.chapters}}" wx:key="index">
+      <view class="chapter-head">
+        <text class="chapter-no">第 {{index + 1}} 节</text>
+        <text class="remove" data-index="{{index}}" bindtap="removeChapter">删除</text>
+      </view>
+      <input
+        class="chapter-input"
+        value="{{item.title}}"
+        data-index="{{index}}"
+        bindinput="onChapterTitleInput"
+        placeholder="章节标题"
+        maxlength="60"
+      />
+      <view class="video-row">
+        <text class="video-state">{{item.videoFileID ? '已上传视频' : '未上传视频（仅图文）'}}</text>
+        <view class="video-acts">
+          <text class="mini-link" data-index="{{index}}" bindtap="chooseVideo">{{item.videoFileID ? '重新上传' : '上传视频'}}</text>
+          <text class="mini-link danger" wx:if="{{item.videoFileID}}" data-index="{{index}}" bindtap="removeChapterVideo">移除</text>
+        </view>
+      </view>
+    </view>
+
+    <view wx:if="{{!form.chapters.length}}" class="muted-text">还没有章节，点击「添加章节」开始</view>
+  </view>
+
+  <view class="footer">
+    <button class="btn-primary save-btn" loading="{{saving}}" disabled="{{saving}}" bindtap="onSave">保存课程</button>
+    <view class="footer-tip">保存后可在管理后台调整上架状态</view>
+  </view>
+</view>

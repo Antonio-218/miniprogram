@@ -1,0 +1,52 @@
+<view class="page" wx:if="{{course && !locked}}">
+  <view class="video-wrap" wx:if="{{current.videoFileID}}">
+    <video
+      class="video"
+      src="{{current.videoFileID}}"
+      controls
+      object-fit="contain"
+      show-center-play-btn
+      enable-progress-gesture
+    ></video>
+  </view>
+
+  <view class="body">
+    <view class="chapter-title">{{current.title || '课程介绍'}}</view>
+    <view class="course-name">{{course.title}}</view>
+
+    <view class="card detail-card">
+      <view class="section-title">课程资料</view>
+      <rich-text wx:if="{{course.detail}}" class="detail" nodes="{{course.detail}}"></rich-text>
+      <view wx:else class="tip-text">本节暂未上传图文资料</view>
+    </view>
+  </view>
+
+  <view class="chapter-list">
+    <view class="list-head">
+      <text class="section-title">课程目录</text>
+      <text class="list-count">{{chapters.length}} 节</text>
+    </view>
+    <view
+      class="chapter-item {{index === activeIndex ? 'active' : ''}}"
+      wx:for="{{chapters}}"
+      wx:key="index"
+      data-index="{{index}}"
+      bindtap="onSwitch"
+    >
+      <text class="num">{{index + 1}}</text>
+      <view class="chapter-info">
+        <text class="name">{{item.title}}</text>
+        <text class="state">{{index === activeIndex ? '正在学习' : (item.videoFileID ? '视频' : '图文')}}</text>
+      </view>
+      <text class="dot" wx:if="{{index === activeIndex}}"></text>
+    </view>
+  </view>
+</view>
+
+<view class="locked-wrap" wx:elif="{{locked && !loading}}">
+  <view class="locked-title">暂无学习权限</view>
+  <view class="locked-desc">购买课程后即可无限次学习全部章节</view>
+  <button class="btn-primary locked-btn" bindtap="goBuy">去购买</button>
+</view>
+
+<view wx:elif="{{loading}}" class="loading-tip">加载中...</view>

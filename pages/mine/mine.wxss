@@ -1,0 +1,135 @@
+.page {
+  min-height: 100vh;
+  background: #f5f7fb;
+  padding-bottom: calc(40rpx + env(safe-area-inset-bottom));
+}
+
+.profile {
+  background: linear-gradient(135deg, #2f6bff 0%, #4f8bff 100%);
+  padding: 48rpx 32rpx 56rpx;
+  display: flex;
+  align-items: center;
+}
+
+.avatar-btn {
+  width: 132rpx;
+  height: 132rpx;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.avatar {
+  width: 132rpx;
+  height: 132rpx;
+  border-radius: 50%;
+  display: block;
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.avatar-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 52rpx;
+  font-weight: 600;
+  border: 4rpx solid rgba(255, 255, 255, 0.45);
+}
+
+.profile-info {
+  margin-left: 28rpx;
+  flex: 1;
+  min-width: 0;
+}
+
+.nickname {
+  color: #ffffff;
+  font-size: 36rpx;
+  font-weight: 600;
+  height: 52rpx;
+}
+
+.nickname-placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.profile-sub {
+  margin-top: 12rpx;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 24rpx;
+  display: flex;
+  align-items: center;
+}
+
+.role {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 4rpx 14rpx;
+  border-radius: 6rpx;
+  font-size: 22rpx;
+}
+
+.dot {
+  margin: 0 10rpx;
+}
+
+.menu {
+  margin: -32rpx 24rpx 0;
+  padding: 8rpx 28rpx;
+  position: relative;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 32rpx 0;
+  border-bottom: 2rpx solid #f2f4f8;
+}
+
+.menu-item:last-child {
+  border-bottom: none;
+}
+
+.menu-hover {
+  opacity: 0.7;
+}
+
+.menu-text {
+  font-size: 30rpx;
+  color: #1a1d26;
+}
+
+.arrow {
+  color: #c4c9d6;
+  font-size: 36rpx;
+  line-height: 1;
+}
+
+.tips {
+  margin: 32rpx 24rpx 0;
+  background: #ffffff;
+  border-radius: 20rpx;
+  padding: 28rpx;
+  box-shadow: 0 6rpx 24rpx rgba(31, 63, 120, 0.06);
+}
+
+.tips-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #1a1d26;
+  margin-bottom: 16rpx;
+}
+
+.tips-text {
+  font-size: 24rpx;
+  color: #8a90a2;
+  line-height: 1.9;
+}
+
+.footer {
+  margin-top: 60rpx;
+  text-align: center;
+  font-size: 22rpx;
+  color: #b4b9c7;
+}

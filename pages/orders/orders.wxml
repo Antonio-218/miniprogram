@@ -1,0 +1,38 @@
+<view class="page">
+  <view class="tabs">
+    <view
+      class="tab {{status === item.key ? 'active' : ''}}"
+      wx:for="{{tabs}}"
+      wx:key="key"
+      data-status="{{item.key}}"
+      bindtap="switchTab"
+    >{{item.label}}</view>
+  </view>
+
+  <view class="list" wx:if="{{list.length}}">
+    <view class="order-card" wx:for="{{list}}" wx:key="_id">
+      <view class="order-head">
+        <text class="order-no">订单号 {{item.orderNo}}</text>
+        <text class="order-status {{item.status}}">{{item.statusText}}</text>
+      </view>
+      <view class="order-body" data-id="{{item.courseId}}" bindtap="goCourse">
+        <image class="cover" src="{{item.courseCover}}" mode="aspectFill" lazy-load />
+        <view class="order-info">
+          <view class="title">{{item.courseTitle}}</view>
+          <view class="time">{{item.timeText}}</view>
+        </view>
+        <text class="amount">{{item.amountText}}</text>
+      </view>
+      <view class="order-actions" wx:if="{{item.status === 'pending'}}">
+        <view class="act ghost" data-id="{{item._id}}" bindtap="onCancel">取消订单</view>
+        <view class="act primary" data-id="{{item._id}}" bindtap="onPay">去支付</view>
+      </view>
+    </view>
+
+    <view wx:if="{{loading}}" class="loading-tip">加载中...</view>
+    <view wx:elif="{{noMore}}" class="loading-tip">没有更多订单了</view>
+  </view>
+
+  <view wx:elif="{{loading}}" class="loading-tip">加载中...</view>
+  <view wx:else class="empty">暂无订单</view>
+</view>

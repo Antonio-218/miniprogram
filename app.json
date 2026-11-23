@@ -1,0 +1,23 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/course-detail/course-detail",
+    "pages/my-courses/my-courses",
+    "pages/study/study",
+    "pages/mine/mine",
+    "pages/orders/orders",
+    "pages/admin/admin",
+    "pages/admin-course-edit/admin-course-edit"
+  ],
+  "window": {
+    "backgroundTextStyle": "dark",
+    "backgroundColor": "#F5F7FB",
+    "navigationBarBackgroundColor": "#2F6BFF",
+    "navigationBarTitleText": "云课",
+    "navigationBarTextStyle": "white"
+  },
+  "style": "v2",
+  "componentFramework": "glass-easel",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}
